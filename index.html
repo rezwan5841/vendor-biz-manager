@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vendor Biz Manager</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#14452f">
+<link rel="icon" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap">
+<style>
+:root{--g:#14452f;--g2:#1d6b49;--o:#e8892b;--bg:#f4f6f3;--card:#fff;--tx:#17231d;--mut:#5d6b63;--bd:#dde4df;--bad:#b3261e;--ok:#1d7a3e;--warn:#fff1de;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--g:#2f8a5f;--g2:#3aa874;--bg:#101714;--card:#18221d;--tx:#e8efe9;--mut:#9fb0a6;--bd:#2a3a32;--warn:#3a2a14;--bad:#ff8a80;--ok:#6fd392}}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;font:16px/1.45 Nunito,system-ui,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+header{background:var(--g);color:#fff;padding:14px 16px}
+header h1{margin:0;font-size:20px;font-weight:800}
+.demo{background:var(--o);color:#1d1100;font-size:13px;font-weight:600;padding:6px 16px}
+main{padding:14px;max-width:640px;margin:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
+.card h3{margin:0 0 8px;font-size:17px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px}
+.stat small{color:var(--mut);display:block}.stat b{font-size:19px}
+.big{grid-column:1/-1;background:var(--g);color:#fff;border:0}.big small{color:#cfe5d8}.big b{font-size:28px}
+.pos{color:var(--ok)}.neg{color:var(--bad)}
+.btn{min-height:50px;padding:0 18px;border:0;border-radius:12px;background:var(--g);color:#fff;font:800 16px Nunito,sans-serif;width:100%;margin:6px 0}
+.btn.or{background:var(--o);color:#1d1100}.btn.ghost{background:transparent;color:var(--tx);border:2px solid var(--bd)}.btn.sm{min-height:42px;width:auto;font-size:14px}.btn.red{background:var(--bad);color:#fff}
+input,select,textarea{width:100%;min-height:48px;padding:10px 12px;border:2px solid var(--bd);border-radius:10px;font:16px Nunito,sans-serif;background:var(--card);color:var(--tx);margin:3px 0 10px}
+label{font-weight:600;font-size:14px;color:var(--mut)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:800;background:var(--bd);color:var(--tx)}
+.tag.ongoing{background:var(--o);color:#1d1100}.tag.completed{background:var(--g2);color:#fff}.tag.cancelled{background:var(--bad);color:#fff}
+.item{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--bd)}
+.item:last-child{border:0}.mut{color:var(--mut);font-size:14px}
+.warn{background:var(--warn);border-left:5px solid var(--o);padding:10px 12px;border-radius:8px;margin:8px 0;font-size:14px}
+.seg{display:flex;border:2px solid var(--bd);border-radius:12px;overflow:hidden;margin:6px 0 10px}
+.seg button{flex:1;min-height:46px;border:0;background:transparent;color:var(--tx);font:800 14px Nunito,sans-serif}
+.seg button.on{background:var(--g);color:#fff}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;min-height:64px;border:0;background:none;color:var(--mut);font:700 12px Nunito,sans-serif}
+nav button span{display:block;font-size:22px}nav button.on{color:var(--g2);box-shadow:inset 0 3px 0 var(--o)}
+#sh .bd{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-height:88%;overflow:auto;background:var(--card);border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));z-index:21;max-width:640px;margin:auto}
+.sheet h3{margin:0 0 10px}.err{color:var(--bad);font-weight:600;margin:0 0 8px}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:8px 6px;border-bottom:1px solid var(--bd);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}
+.chk{display:flex;gap:10px;align-items:center}.chk input{width:26px;min-height:26px;margin:0}
+main,.card,.item>*{min-width:0;overflow-wrap:anywhere}
+.item{flex-wrap:wrap}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--bd)}.kv:last-child{border:0}.kv span{color:var(--mut)}.kv b{text-align:right}
+h3.sec{margin:18px 4px 8px;font-size:17px}
+.demo.ok{background:var(--g2);color:#fff}
+#toast{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:30;max-width:616px;margin:auto;background:var(--g);color:#fff;padding:12px 14px;border-radius:12px;font-weight:700;display:none}#toast.bad{background:#b3261e}
+</style>
+</head>
+<body>
+<header><h1>🍗 Vendor Biz Manager</h1></header>
+<div class="demo" id="bar">Memuatkan...</div>
+<div id="toast"></div>
+<main id="app"></main>
+<div id="sh"></div>
+<nav id="nav"></nav>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
