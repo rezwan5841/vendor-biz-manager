@@ -154,7 +154,7 @@ function reports(){
 // ===== Lapisan data Supabase =====
 const one=x=>Array.isArray(x)?x[0]:x;
 const mapMenu=r=>({id:r.id,name:r.name,cat:r.category||'',price:+r.price,cost:r.est_cost==null?null:+r.est_cost,desc:r.description||'',on:r.active});
-const mapEvent=r=>{const s=one(r.sales),c=one(r.capital);return{id:r.id,name:r.name,org:r.organizer||'',venue:r.venue||'',start:r.start_date,end:r.end_date,status:r.status,notes:r.notes||'',menus:(r.event_menus||[]).map(x=>({mid:x.menu_id,price:+x.price,note:x.note||''})).sort((a,b)=>a.mid<b.mid?-1:1),salesMode:r.sales_mode,total:s?+s.total:null,salesDate:s&&s.recorded_on||'',salesNote:s&&s.notes||'',daily:Object.fromEntries((r.daily_records||[]).map(d=>[d.day,+d.sales])),costMode:r.cost_mode,capital:c?+c.amount:null,exp:(r.expenses||[]).map(x=>({id:x.id,cat:x.category,desc:x.description||'',date:x.spent_on,amt:+x.amount}))}};
+const mapEvent=r=>{const s=one(r.event_financials),c=one(r.capital);return{id:r.id,name:r.name,org:r.organizer||'',venue:r.venue||'',start:r.start_date,end:r.end_date,status:r.status,notes:r.notes||'',menus:(r.event_menus||[]).map(x=>({mid:x.menu_id,price:+x.price,note:x.note||''})).sort((a,b)=>a.mid<b.mid?-1:1),salesMode:r.sales_mode,total:s?+s.total:null,salesDate:s&&s.recorded_on||'',salesNote:s&&s.notes||'',daily:Object.fromEntries((r.daily_records||[]).map(d=>[d.day,+d.sales])),costMode:r.cost_mode,capital:c?+c.amount:null,exp:(r.expenses||[]).map(x=>({id:x.id,cat:x.category,desc:x.description||'',date:x.spent_on,amt:+x.amount}))}};
 const ents=()=>[...menus.map(x=>['menu:'+x.id,x,0]),...events.map(x=>['event:'+x.id,x,0]),...archived.map(x=>['event:'+x.id,x,1])];
 const sn=(k,x,a)=>k[0]==='m'?J(x):J({...x,_a:a});
 const CK=()=>'vbm_'+S.user.id;
@@ -194,7 +194,7 @@ async function flush(){
  if(okN&&!Object.keys(Q).length){doneSync();toast('Disimpan ke pelayan')}else if(okN)toast('Sebahagian disimpan ke pelayan');
  render()}
 async function pull(){
- const[m,e]=await Promise.all([SB.from('menus').select('*').order('created_at'),SB.from('events').select('*,event_menus(*),sales(*),daily_records(*),expenses(*),capital(*),archived_events(*)').order('start_date',{ascending:false})]);
+ const[m,e]=await Promise.all([SB.from('menus').select('*').order('created_at'),SB.from('events').select('*,event_menus(*),event_financials(*),daily_records(*),expenses(*),capital(*),archived_events(*)').order('start_date',{ascending:false})]);
  if(m.error)throw m.error;if(e.error)throw e.error;
  const mm=[],locM=menus;m.data.forEach(r=>{const k='menu:'+r.id;if(Q[k]==='delete')return;const l=locM.find(x=>x.id===r.id);if(Q[k]&&l){mm.push(l);return}mm.push(mapMenu(r));META[k]={state:'synced',base:r.updated_at}});
  locM.forEach(l=>{if(Q['menu:'+l.id]&&Q['menu:'+l.id]!=='delete'&&!m.data.some(r=>r.id===l.id))mm.push(l)});
