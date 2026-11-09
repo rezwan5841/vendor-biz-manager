@@ -194,7 +194,7 @@ async function flush(){
  if(okN&&!Object.keys(Q).length){doneSync();toast('Disimpan ke pelayan')}else if(okN)toast('Sebahagian disimpan ke pelayan');
  render()}
 async function pull(){
- const[m,e]=await Promise.all([SB.from('menus').select('*').order('created_at'),SB.from('events').select('*,event_menus(*),event_financials(*),daily_records(*),expenses(*),capital(*),archived_events(*)').order('start_date',{ascending:false})]);
+ const[m,e]=await Promise.all([SB.from('menus').select('*').order('created_at'),SB.from('events').select('*,event_menus(*),event_financials(*),daily_records(*),expenses(*),archived_events(*)').order('start_date',{ascending:false})]);
  if(m.error)throw m.error;if(e.error)throw e.error;
  const mm=[],locM=menus;m.data.forEach(r=>{const k='menu:'+r.id;if(Q[k]==='delete')return;const l=locM.find(x=>x.id===r.id);if(Q[k]&&l){mm.push(l);return}mm.push(mapMenu(r));META[k]={state:'synced',base:r.updated_at}});
  locM.forEach(l=>{if(Q['menu:'+l.id]&&Q['menu:'+l.id]!=='delete'&&!m.data.some(r=>r.id===l.id))mm.push(l)});
